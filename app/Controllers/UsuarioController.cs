@@ -46,10 +46,17 @@ namespace app.Controllers
 
         [HttpGet("permissoes")]
         [Authorize]
-        public async Task<List<Permissao>> ListarPermissoes()
+        public async Task<IActionResult> ListarPermissoes()
         {
-            var userId = authService.GetUserId(Usuario);
-            return await usuarioService.ListarPermissoesAsync(userId);
+            try
+            {
+                var userId = authService.GetUserId(Usuario);
+                return new OkObjectResult(await usuarioService.ListarPermissoesAsync(userId));
+            }
+            catch (InvalidOperationException _)
+            {
+                return StatusCode(401);
+            }
         }
 
         [HttpPost("atualizarToken")]
@@ -122,7 +129,7 @@ namespace app.Controllers
         }
 
         [Authorize]
-        [HttpGet()]
+        [HttpGet]
         public async Task<ListaPaginada<UsuarioModel>> ListarAsync([FromQuery] PesquisaUsuarioFiltro filtro)
         {
             authService.Require(Usuario, Permissao.UsuarioVisualizar);
@@ -135,6 +142,14 @@ namespace app.Controllers
         {
             authService.Require(Usuario, Permissao.UsuarioPerfilEditar);
             await usuarioService.EditarUsuarioPerfil(id, dto.NovoPerfilId, dto.NovaUF, dto.NovoMunicipio);
+        }
+
+        [Authorize]
+        [HttpGet("apiKey")]
+        public string ObterApiKey()
+        {
+            var usuarioid = authService.GetUserId(Usuario);
+            return usuarioService.ObterApiKey(usuarioid);
         }
     }
 }

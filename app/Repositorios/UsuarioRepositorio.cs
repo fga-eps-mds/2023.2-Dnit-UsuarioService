@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-
 using app.Entidades;
 using api.Usuarios;
 using app.Repositorios.Interfaces;
@@ -19,9 +18,28 @@ namespace app.Repositorios
             this.mapper = mapper;
         }
 
-        public Usuario? ObterUsuario(string email)
+        public Usuario? ObterUsuario(string? email = null, int? id = null, bool includePerfil = false)
         {
-            return dbContext.Usuario.Where(u => u.Email == email).FirstOrDefault();
+            var query = dbContext.Usuario.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(email))
+            {
+                query = query.Where(u => u.Email.ToLower() == email.ToLower());
+            }
+            if (id.HasValue)
+            {
+                query = query.Where(u => u.Id == id);
+            }
+            if (includePerfil)
+            {
+                query = query.Include(u => u.Perfil);
+            }
+            return query.FirstOrDefault();
+        }
+
+        public Usuario? ObterUsuarioPorEmail(string email)
+        {
+            return ObterUsuario(email: email);
         }
 
         public async Task<Usuario?> ObterUsuarioAsync(int? id = null, string? email = null, bool includePerfil = false)
@@ -62,16 +80,18 @@ namespace app.Repositorios
         {
             var empresa = dbContext.Empresa.Where(e => e.Cnpj == usuarioTerceiro.CNPJ).FirstOrDefault();
 
-            List<Empresa> empresas = new() { empresa };
-
             var novoUsuarioTerceiro = new Usuario
             {
                 Nome = usuarioTerceiro.Nome,
                 Email = usuarioTerceiro.Email,
                 Senha = usuarioTerceiro.Senha,
-                Empresas = empresas,
-                Perfil = await RecuperaPerfilBasicoAsync()
+                Perfil = await RecuperaPerfilBasicoAsync(),
+                Associacao = Associacao.Empresa
             };
+
+            if (empresa != null){
+                novoUsuarioTerceiro.Empresa = empresa;
+            }
 
             dbContext.Usuario.Add(novoUsuarioTerceiro);
         }
@@ -127,6 +147,7 @@ namespace app.Repositorios
             var query = dbContext.Usuario
                 .Include(u => u.Municipio)
                 .Include(u => u.Perfil)
+                .Include(u => u.Empresa)
                 .AsQueryable();
 
             if (filtro.Nome != null)
@@ -140,6 +161,9 @@ namespace app.Repositorios
 
             if (filtro.MunicipioId != null)
                 query = query.Where(u => u.MunicipioId == filtro.MunicipioId);
+
+            if (filtro.Empresa != null)
+                query = query.Where(u => u.Empresa.RazaoSocial.Contains(filtro.Empresa));
 
             var total = await query.CountAsync();
             var items = await query
