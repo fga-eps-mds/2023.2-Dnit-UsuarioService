@@ -23,7 +23,7 @@ docker compose ...
 ```
 
 Se você precisa de `sudo` para executar comandos do Docker, consulte o 
-[guia](https://docs.docker.com/engine/install/linux-postinstall/) de pós-instação.
+[guia](https://docs.docker.com/engine/install/linux-postinstall/) de pós-instalação.
 
 ## Executar
 
@@ -31,26 +31,30 @@ Se você precisa de `sudo` para executar comandos do Docker, consulte o
 git clone https://github.com/fga-eps-mds/2023.2-Dnit-UsuarioService.git
 ```
 
-Execute com Docker:
-
-```sh
-docker compose up -d
-```
-
-Ou entre no diretório `app/` e inicie o servidor execute nativamente:
+Entre no diretório `app/` e inicie o servidor execute nativamente:
 
 ```sh
 cd app
 dotnet watch
 ```
 
-Acesse a documentação pelo swagger em http://localhost:7083/swagger.
+Ou execute com Docker:
 
-## Editor
+```sh
+docker compose up -d
+```
+
+Acesse a documentação da API pelo swagger em http://localhost:7083/swagger.
+
+### Banco de dados e rede docker
+
+Para mais informações sobre como acessar o banco de dados, leia [banco-de-dados.md](docs/banco-de-dados.md).
+
+### Editor
 
 Para mais informações sobre instalação e IDE, leia [ambiente.md](docs/ambiente.md).
 
-### Licença
+## Licença
 
 O projeto UsuarioService está sob as regras aplicadas na licença 
 [AGPL-3.0](https://github.com/fga-eps-mds/2023.1-Dnit-UsuarioService/blob/main/LICENSE).
