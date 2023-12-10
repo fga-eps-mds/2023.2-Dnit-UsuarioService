@@ -1,127 +1,71 @@
-# 2023.1-Dnit-UsuarioService
+# UsuarioService
 
-Serviço responsavel pelas funcionalidades relacionadas à autentificação (cadastro de usuarios, login, solicitação de recuperação de senha, redefinição de senha).
+Serviço responsável pelas funcionalidades relacionadas à autenticação 
+(cadastro de usuários, login, solicitação de recuperação de senha, redefinição de senha)
+e autorização.
 
-### Como instalar
+## Pré requisitos
 
-A forma de instalação é igual para todos os serviços, havendo diferenças apenas com base no sistema operacional.
+- [.NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+- Docker e [Docker Compose](https://docs.docker.com/compose/install/)
 
+Se você tem o Compose instalado como standalone, use:
 
-#### Windows e MacOs
-
-##### Modo 1
-
-- Abra um navegador da web e acesse o site oficial da Microsoft .NET: https://dotnet.microsoft.com/download/dotnet/6.0
-- Role a página até a seção ".NET 6 SDK" e clique no botão de download adequado para seu sistema operacional (por exemplo, "macOS x64 Installer" para macOS 64 bits ou  "Windows x64 Installer" para Windows 64 bits).
-- O arquivo de instalação será baixado. Depois que o download for concluído, clique duas vezes no arquivo para iniciá-lo.
-- O instalador será aberto. Leia e aceite os termos de licença.
-- Selecione as opções de instalação que você deseja.
-- Clique no botão "Install" (Instalar) para iniciar a instalação do .NET 6.
-- Após a conclusão da instalação, você verá uma tela informando que o .NET 6 SDK foi instalado com sucesso.
-- Para verificar se a instalação foi bem-sucedida, abra o Prompt de Comando ou o PowerShell e execute o seguinte comando:
-
-```bash
-dotnet --version
-```
-- Isso exibirá a versão do .NET instalada, confirmando se o .NET 6 está configurado corretamente.
-
-##### Modo 2
-
-Basta instalar a IDE [Visual Studio](https://visualstudio.microsoft.com/pt-br/free-developer-offers/) escolhendo a versão gratuita (Versão Community). Após instalar o Visual Studio, ele automaticamente irá instalar o .NET com a versão mais estável.
-
-#### Linux
-
-Instale o SDK do *.*NET .
-
-```bash
-sudo apt-get update && \
-  sudo apt-get install -y dotnet-sdk-6.0
+```sh
+docker-compose ...
 ```
 
-Instale o runtime ASP.NET Core.
+Entretando, prefira instalar o Docker Compose como plugin (recomedação do 
+Docker). Os comandos nesse formato são assim:
 
-```bash
-sudo apt-get update && \
-  sudo apt-get install -y aspnetcore-runtime-6.0
+```sh
+docker compose ...
 ```
 
-Entre na pasta do serviço. Dentro da pasta "app" rode o comando:
+Se você precisa de `sudo` para executar comandos do Docker, consulte o 
+[guia](https://docs.docker.com/engine/install/linux-postinstall/) de pós-instação.
 
-```bash
-dotnet run
-```
-### Clonar Aplicação
+## Executar
 
-Para clonar o repostório, basta utilizar o comando abaixo:
-
-##### UsuarioService
-```
-git clone https://github.com/fga-eps-mds/2023.1-Dnit-UsuarioService.git
+```sh
+git clone https://github.com/fga-eps-mds/2023.2-Dnit-UsuarioService.git
 ```
 
-### Como Rodar
-### Utilizando docker-compose
+Execute com Docker:
 
-#### Pré-requisitos
-- Docker
-- Docker-compose
-
-#### Windows 
-Rode o seguinte comando na pasta da aplicação.
-```bash
-docker-compose build && docker-compose up
+```sh
+docker compose up -d
 ```
 
+Ou execute nativamente:
 
-#### Linux ou MacOS
-Rode o seguinte comando na pasta da aplicação.
-```bash
-sudo docker-compose build && sudo docker-compose up
+```sh
+cd app
+dotnet watch
 ```
 
-#### Usando Visual Studio
+## Editor
 
-Para rodar uma aplicação usando Visual Studio, basta clicar no arquivo com extenção 'sln' e em seguida clicar no ícone para rodar aplicação conforme mostra abaixo:
-<br>
-![rodar](https://github.com/fga-eps-mds/2023.1-Dnit-EscolaService/assets/54676096/c7f08d0f-e1e7-45ab-b5a4-bbf1089ce1d8)
-
-#### Usando Visual Studio Code
-
-Para rodar utilizando o VS Code, basta seguir a seguinte instrução:
-
-Entre na pasta do serviço. Dentro da pasta "app" rode o comando:
-
-```bash
-dotnet run
-```
-
-### Encerrando a aplicação
-
-- No terminal em que a aplicação esta rodando, digite simultaneamente as teclas **ctrl**+**c**. 
-- Caso esteja utilizando o Visual Studio, clique no ícone quadrado vermelho <br>.
-
-![parar](https://github.com/fga-eps-mds/2023.1-Dnit-EscolaService/assets/54676096/45aedf91-bfb3-4475-afeb-6111a6feabe8)
-
-### Documentação endpoints
-
-Para documentar os endpoints estamos utilizando o Swagger. Caso queira visualizar, basta abrir a rota: 
-```bash
-http://localhost:7083/swagger/index.html
-```
-
-<img src="https://github.com/fga-eps-mds/2023.1-Dnit-UsuarioService/assets/54676096/2b2b5fef-7b52-4f40-ab91-c391aaae5d76" alt="swagger-usuarioservice" style="width:800px;">
-
+Para mais informações sobre instalação e IDE, leia [ambiente.md](docs/ambiente.md).
 
 ### Licença
 
-O projeto DnitUsuarioService está sob as regras aplicadas na licença [AGPL-3.0](https://github.com/fga-eps-mds/2023.1-Dnit-UsuarioService/blob/main/LICENSE
-)
+O projeto UsuarioService está sob as regras aplicadas na licença 
+[AGPL-3.0](https://github.com/fga-eps-mds/2023.1-Dnit-UsuarioService/blob/main/LICENSE).
 
 ## Contribuidores
 
-Era pra ter apenas o pessoal do semestre 2023.2, mas por um PR errado, o pessoal 
-do semestre anterior entrou junto.
-
-<a href="https://github.com/fga-eps-mds/2023.2-Dnit-UsuarioService/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=fga-eps-mds/2023.2-Dnit-UsuarioService" />
-</a>
+- [Daniel Porto](https://github.com/DanielPortods)
+- [Rafael Berto](https://github.com/RafaelBP02)
+- [Thiago Sampaio](https://github.com/thiagohdaqw)
+- [Victor Hugo](https://github.com/victorhugo21)
+- [Vitor Lamego](https://github.com/VitorLamego)
+- [Wagner Martins](https://github.com/wagnermc506)
+- [Yudi Yamane](https://github.com/yudi)
+- [André Emanuel](https://github.com/Hunter104)
+- [Artur Henrique](https://github.com/H0lzz)
+- [Cássio Sousa](https://github.com/csreis72)
+- [Eduardo Matheus](https://github.com/DiceRunner714)
+- [João Antonio](https://github.com/joaoseisei)
+- [Lucas Gama](https://github.com/bottinolucas)
+- [Márcio Henrique](https://github.com/DeM4rcio)
