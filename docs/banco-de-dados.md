@@ -1,5 +1,14 @@
 # Banco de dados
 
+Portas, nomes de banco de dados ou de conteineres devem ser obtidos a partir de
+cada `docker-compose.yml` dos serviços.
+
+`<nome-do-container-do-banco>` pode ser `dnit-usuario-db`, `dnit-escola-db`
+ou `dnit-ups-db`.
+
+`<nome-do-database>` pode ser `usuarioservice`, `escolaservice` ou `upservice`.
+
+
 ## Acessando pelo PgAdmin em container Docker
 
 Não é obrigatório executar UsuarioService pelo docker. Ainda assim, é 
@@ -10,9 +19,6 @@ do pgadmin e do banco de dados:
 ```sh
 docker compose up -d <nome-do-container-do-banco> pgadmin 
 ```
-
-`<nome-do-container-do-banco>` pode ser `dnit-usuario-db`, `dnit-escola-db`
-ou `dnit-ups-db`.
 
 Então você vai poder acessar um cliente PostgreSQL em http://localhost:5555.
 Use o **email** `dnit@fga.com` e a **senha** `fga1234` para fazer login.
@@ -39,8 +45,6 @@ Para criar uma conexão com o banco de dados use as seguintes informações:
 - Senha: 1234
 
 A `porta` é especificada em cada `docker-compose.yml` dos serviços.
-
-`<nome-do-database>` pode ser `usuarioservice`, `escolaervice` ou `upsservice`.
 
 ## Dicas gerais
 
