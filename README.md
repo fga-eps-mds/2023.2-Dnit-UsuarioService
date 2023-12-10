@@ -29,19 +29,22 @@ Se você precisa de `sudo` para executar comandos do Docker, consulte o
 
 ```sh
 git clone https://github.com/fga-eps-mds/2023.2-Dnit-UsuarioService.git
+cd 2023.2-Dnit-UsuarioService
 ```
 
-Entre no diretório `app/` e inicie o servidor execute nativamente:
-
-```sh
-cd app
-dotnet watch
-```
-
-Ou execute com Docker:
+Você pode iniciar todos os containeres:
 
 ```sh
 docker compose up -d
+```
+
+Ou iniciar apenas o container de banco de dados, entrar no diretório `app/` 
+e iniciar o servidor nativamente:
+
+```sh
+docker compose up -d dnit-usuario-db
+cd app
+dotnet watch
 ```
 
 Acesse a documentação da API pelo swagger em http://localhost:7083/swagger.
