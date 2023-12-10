@@ -1,12 +1,22 @@
 # Banco de dados
 
-Portas, nomes de banco de dados ou de conteineres devem ser obtidos a partir de
-cada `docker-compose.yml` dos serviços.
+Esse é um guia geral para criar uma conexão com banco de dados, independente 
+do serviço.
+
+Termos como `<nome-do-container-do-banco>`, `<nome-do-database>` e `<porta>`
+devem ser substituídos pelos valores corretos que podem ser obtidos no
+`docker-compose.yml` de cada serviço.
 
 `<nome-do-container-do-banco>` pode ser `dnit-usuario-db`, `dnit-escola-db`
 ou `dnit-ups-db`.
 
 `<nome-do-database>` pode ser `usuarioservice`, `escolaservice` ou `upservice`.
+
+Portas:
+
+- 5444 -> EscolaService
+- 5433 -> UpsService
+- 5432 -> UsuarioService
 
 
 ## Acessando pelo PgAdmin em container Docker
@@ -30,8 +40,6 @@ Para criar uma conexão com o banco de dados use as seguintes informações:
 - Database: `<nome-do-database>`
 - Senha: 1234
 
-`<nome-do-database>` pode ser `usuarioservice`, `escolaervice` ou `upsservice`.
-
 ## Acessando por um cliente PostgreSQL nativo
 
 Instale o [Postbird](https://github.com/Paxa/postbird#download)
@@ -40,11 +48,9 @@ ou o [DBeaver](https://dbeaver.io/download/).
 Para criar uma conexão com o banco de dados use as seguintes informações:
 
 - Host: localhost
-- Porta: `porta`
+- Porta: `<porta>`
 - Database: `<nome-do-database>`
 - Senha: 1234
-
-A `porta` é especificada em cada `docker-compose.yml` dos serviços.
 
 ## Dicas gerais
 
