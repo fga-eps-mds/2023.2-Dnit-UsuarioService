@@ -119,6 +119,9 @@ O projeto DnitUsuarioService está sob as regras aplicadas na licença [AGPL-3.0
 
 ## Contribuidores
 
-<a href="https://github.com/fga-eps-mds/2023.1-Dnit-UsuarioService/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=fga-eps-mds/2023.1-Dnit-UsuarioService" />
+Era pra ter apenas o pessoal do semestre 2023.2, mas por um PR errado, o pessoal 
+do semestre anterior entrou junto.
+
+<a href="https://github.com/fga-eps-mds/2023.2-Dnit-UsuarioService/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=fga-eps-mds/2023.2-Dnit-UsuarioService" />
 </a>
