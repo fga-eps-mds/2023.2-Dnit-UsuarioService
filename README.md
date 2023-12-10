@@ -37,12 +37,14 @@ Execute com Docker:
 docker compose up -d
 ```
 
-Ou execute nativamente:
+Ou entre no diretório `app/` e inicie o servidor execute nativamente:
 
 ```sh
 cd app
 dotnet watch
 ```
+
+Acesse a documentação pelo swagger em http://localhost:7083/swagger.
 
 ## Editor
 

@@ -1,4 +1,6 @@
-# Ambiente
+# Ambiente e IDE
+
+Aqui vão algumas 
 
 ## Windows e MacOs
 
@@ -23,7 +25,7 @@ clique duas vezes no arquivo para iniciá-lo.
 dotnet --version
 ```
 
-- Isso exibirá a versão do .NET instalada, confirmando se o .NET 6 está configurado corretamente.
+Isso exibirá a versão do .NET instalada, confirmando se o .NET 6 está configurado corretamente.
 
 ### Modo 2
 
@@ -48,17 +50,9 @@ sudo apt-get update && \
   sudo apt-get install -y aspnetcore-runtime-6.0
 ```
 
-Entre na pasta do serviço. Dentro da pasta "app" rode o comando:
-
-```bash
-dotnet run
-```
-
 ## Como Rodar
 
-### Utilizando docker-compose
-
-#### Usando Visual Studio
+### Usando Visual Studio
 
 Para rodar uma aplicação usando Visual Studio, basta clicar no arquivo com 
 extenção 'sln' e em seguida clicar no ícone para rodar aplicação conforme mostra
@@ -66,7 +60,7 @@ extenção 'sln' e em seguida clicar no ícone para rodar aplicação conforme m
 
 ![rodar](https://github.com/fga-eps-mds/2023.1-Dnit-EscolaService/assets/54676096/c7f08d0f-e1e7-45ab-b5a4-bbf1089ce1d8)
 
-#### Usando Visual Studio Code
+### Usando Visual Studio Code
 
 Para rodar utilizando o VS Code, basta seguir a seguinte instrução:
 
@@ -76,20 +70,12 @@ Entre na pasta do serviço. Dentro da pasta "app" rode o comando:
 dotnet run
 ```
 
-### Encerrando a aplicação
+## Encerrando a aplicação
 
 - No terminal em que a aplicação esta rodando, digite simultaneamente as teclas Ctrl + C. 
 - Caso esteja utilizando o Visual Studio, clique no ícone quadrado vermelho.
 
 ![parar](https://github.com/fga-eps-mds/2023.1-Dnit-EscolaService/assets/54676096/45aedf91-bfb3-4475-afeb-6111a6feabe8)
-
-## Documentação endpoints
-
-Para documentar os endpoints estamos utilizando o Swagger. Caso queira visualizar, basta abrir a rota: 
-
-```bash
-http://localhost:7083/swagger/index.html
-```
 
 <img width="200" src="https://github.com/fga-eps-mds/2023.1-Dnit-UsuarioService/assets/54676096/2b2b5fef-7b52-4f40-ab91-c391aaae5d76" alt="swagger-usuarioservice" style="width:800px;">
 
