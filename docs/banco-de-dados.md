@@ -14,9 +14,9 @@ ou `dnit-ups-db`.
 
 Portas:
 
-- 5444 -> EscolaService
-- 5433 -> UpsService
-- 5432 -> UsuarioService
+- 5444 -> dnit-escola-db
+- 5433 -> dnit-ups-db
+- 5432 -> dnit-usuario-db
 
 
 ## Acessando pelo PgAdmin em container Docker
