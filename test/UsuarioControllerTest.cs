@@ -155,12 +155,12 @@ namespace test
             var usuarioDTO = new UsuarioStub().RetornarUsuarioDnitDTO();
             usuarioDTO.UfLotacao = 0;
 
-            var e = await Assert.ThrowsAsync<ApiException>(async() => await controller.CadastrarUsuarioDnit(usuarioDTO));
+            var e = await Assert.ThrowsAsync<ApiException>(async () => await controller.CadastrarUsuarioDnit(usuarioDTO));
             Assert.Equal(ErrorCodes.CodigoUfInvalido, e.Error.Code);
         }
 
         [Fact]
-      public async Task CadastrarUsuarioDnit_QuandoUsuarioJaExistir_DeveRetornarConflict()
+        public async Task CadastrarUsuarioDnit_QuandoUsuarioJaExistir_DeveRetornarConflict()
         {
             var usuarioStub = new UsuarioStub();
             var usuarioDTO = usuarioStub.RetornarUsuarioDnitDTO();
@@ -172,7 +172,7 @@ namespace test
 
             var controller = new UsuarioController(usuarioServiceMock.Object, null);
 
-            var resultado = await Assert.ThrowsAsync<ApiException>(async() => await controller.CadastrarUsuarioDnit(usuarioDTO)); 
+            var resultado = await Assert.ThrowsAsync<ApiException>(async () => await controller.CadastrarUsuarioDnit(usuarioDTO));
 
             usuarioServiceMock.Verify(service => service.CadastrarUsuarioDnit(usuarioDTO), Times.Once);
             Assert.IsType<ApiException>(resultado);
@@ -180,7 +180,7 @@ namespace test
 
 
         [Fact]
-        public void CadastrarUsuarioTerceiro_QuandoUsuarioForCadastrado_DeveRetornarCreated()
+        public async Task CadastrarUsuarioTerceiro_QuandoUsuarioForCadastrado_DeveRetornarCreated()
         {
             var usuarioStub = new UsuarioStub();
             var usuarioDTO = usuarioStub.RetornarUsuarioDnitDTO();
@@ -189,7 +189,7 @@ namespace test
 
             var controller = new UsuarioController(usuarioServiceMock.Object, null);
 
-            var resultado = controller.CadastrarUsuarioTerceiro(usuarioDTO);
+            var resultado = await controller.CadastrarUsuarioTerceiro(usuarioDTO);
 
             usuarioServiceMock.Verify(service => service.CadastrarUsuarioTerceiro(usuarioDTO), Times.Once);
             var objeto = Assert.IsType<ObjectResult>(resultado);
@@ -198,7 +198,7 @@ namespace test
         }
 
         [Fact]
-        public void CadastrarUsuarioTerceiro_QuandoUsuarioJaExistir_DeveRetornarConflict()
+        public async Task CadastrarUsuarioTerceiro_QuandoUsuarioJaExistir_DeveRetornarConflict()
         {
             var usuarioStub = new UsuarioStub();
             var usuarioDTO = usuarioStub.RetornarUsuarioDnitDTO();
@@ -210,14 +210,14 @@ namespace test
 
             var controller = new UsuarioController(usuarioServiceMock.Object, null);
 
-            var resultado = controller.CadastrarUsuarioTerceiro(usuarioDTO);
+            var resultado = await controller.CadastrarUsuarioTerceiro(usuarioDTO);
 
             usuarioServiceMock.Verify(service => service.CadastrarUsuarioTerceiro(usuarioDTO), Times.Once);
             var objeto = Assert.IsType<ConflictObjectResult>(resultado);
         }
 
         [Fact]
-        public void CadastrarUsuarioTerceiro_QuandoCadastroFalhar_DeveRetornarErroInterno()
+        public async Task CadastrarUsuarioTerceiro_QuandoCadastroFalhar_DeveRetornarErroInterno()
         {
             var usuarioStub = new UsuarioStub();
             var usuarioDTO = usuarioStub.RetornarUsuarioDnitDTO();
@@ -229,7 +229,7 @@ namespace test
 
             var controller = new UsuarioController(usuarioServiceMock.Object, null);
 
-            var resultado = controller.CadastrarUsuarioTerceiro(usuarioDTO);
+            var resultado = await controller.CadastrarUsuarioTerceiro(usuarioDTO);
 
             usuarioServiceMock.Verify(service => service.CadastrarUsuarioTerceiro(usuarioDTO), Times.Once);
             var objeto = Assert.IsType<ObjectResult>(resultado);

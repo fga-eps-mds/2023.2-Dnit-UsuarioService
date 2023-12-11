@@ -19,7 +19,7 @@ namespace app.Services
             this.dbContext = dbContext;
             this.mapper = mapper;
         }
-        
+
         public async Task CadastrarEmpresa(Empresa empresa)
         {
             empresaRepositorio.CadastrarEmpresa(empresa);
@@ -32,8 +32,9 @@ namespace app.Services
             return empresaRepositorio.VisualizarEmpresa(empresaid);
         }
 
-        public async Task DeletarEmpresa(string empresaid){
-            var empresaParaExcluir = await empresaRepositorio.ObterEmpresaPorCnpjAsync(empresaid) 
+        public async Task DeletarEmpresa(string empresaid)
+        {
+            var empresaParaExcluir = await empresaRepositorio.ObterEmpresaPorCnpjAsync(empresaid)
                 ?? throw new ApiException(ErrorCodes.EmpresaNaoEncontrada);
 
             await empresaRepositorio.DeletarEmpresa(empresaParaExcluir);
@@ -43,8 +44,10 @@ namespace app.Services
         public async Task<ListaPaginada<EmpresaModel>> ListarEmpresas(int pageIndex, int pageSize, string? nome = null, string? cnpj = null, string? ufs = "")
         {
             List<UF> listaUFs = new List<UF>();
-            if (!string.IsNullOrEmpty(ufs)){
-                foreach (var uf in ufs.Split(",")) {
+            if (!string.IsNullOrEmpty(ufs))
+            {
+                foreach (var uf in ufs.Split(","))
+                {
                     listaUFs.Add((UF)int.Parse(uf));
                 }
             }
@@ -52,6 +55,14 @@ namespace app.Services
             var pagina = await empresaRepositorio.ListarEmpresas(pageIndex, pageSize, listaUFs, nome, cnpj);
             var modelo = mapper.Map<List<EmpresaModel>>(pagina.Items);
             return new ListaPaginada<EmpresaModel>(modelo, pagina.Pagina, pagina.ItemsPorPagina, pagina.Total);
+        }
+
+        public async Task<List<EmpresaModel>> ListarAsync()
+        {
+
+            var empresas = await empresaRepositorio.ListarEmpresasSemPaginacao();
+            var listEmpresas = mapper.Map<List<EmpresaModel>>(empresas);
+            return new List<EmpresaModel>(listEmpresas);
         }
 
         public async Task<Empresa?> EditarEmpresa(string empresaid, Empresa empresa)
@@ -62,7 +73,7 @@ namespace app.Services
             empresaAtualizar.RazaoSocial = empresa.RazaoSocial;
             empresaAtualizar.EmpresaUFs = empresa.EmpresaUFs;
             empresaAtualizar.Usuarios = empresa.Usuarios;
-            
+
             await dbContext.SaveChangesAsync();
 
             return empresaAtualizar;
@@ -74,7 +85,7 @@ namespace app.Services
             await dbContext.SaveChangesAsync();
         }
 
-         public async Task RemoverUsuario(int usuarioid, string empresaid)
+        public async Task RemoverUsuario(int usuarioid, string empresaid)
         {
             empresaRepositorio.RemoverUsuario(usuarioid, empresaid);
             await dbContext.SaveChangesAsync();

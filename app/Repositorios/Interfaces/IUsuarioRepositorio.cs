@@ -14,7 +14,7 @@ namespace app.Repositorios.Interfaces
         void InserirDadosRecuperacao(string uuid, int idUsuario);
         string? ObterEmailRedefinicaoSenha(string uuid);
         void RemoverUuidRedefinicaoSenha(string uuid);
-        Task CadastrarUsuarioDnit(UsuarioDnit usuario);
+        Task CadastrarUsuarioDnit(UsuarioDTO usuario);
         Task CadastrarUsuarioTerceiro(UsuarioTerceiro usuarioTerceiro);
     }
 }

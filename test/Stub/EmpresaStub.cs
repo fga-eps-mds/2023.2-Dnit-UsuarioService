@@ -7,7 +7,7 @@ using api.Empresa;
 
 namespace test.Stub
 {
-    public class EmpresaUsuarioStub: Empresa
+    public class EmpresaUsuarioStub : Empresa
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -22,13 +22,14 @@ namespace test.Stub
             return ListaUfs[Random.Shared.Next() % ListaUfs.Length];
         }
 
-        public static Empresa RetornarEmpresa(string cnpj ="123456789", string RazaoSocial = "RazãoSocial" )
-        {           
-            return new Empresa{
+        public static Empresa RetornarEmpresa(string cnpj = "123456789", string RazaoSocial = "RazãoSocial")
+        {
+            return new Empresa
+            {
                 Cnpj = cnpj,
                 RazaoSocial = RazaoSocial,
-                Usuarios = new List<Usuario>{},
-                EmpresaUFs = new List<EmpresaUF>{}
+                Usuarios = new List<Usuario> { },
+                EmpresaUFs = new List<EmpresaUF> { }
             };
         }
 
@@ -41,7 +42,7 @@ namespace test.Stub
                 Senha = "$2a$11$p0Q3r8Q7pBBcfoW.EIdvvuosHDfgr6TBBOxQvpnG18fLLlHjC/J6O",
                 Nome = "Usuario Dnit",
                 UfLotacao = UfAleatoria(),
-                
+
             };
         }
 
@@ -53,18 +54,18 @@ namespace test.Stub
                 {
                     Cnpj = "teste " + Random.Shared.Next().ToString(),
                     RazaoSocial = $"testeRazao{Random.Shared.Next()}",
-                    
+
                 };
             }
         }
 
-        public static EmpresaDTO RetornarEmpresaDTO(string cnpj = "123456789" , string RazaoSocial = "RazaoSocial Teste")
+        public static EmpresaDTO RetornarEmpresaDTO(string cnpj = "123456789", string RazaoSocial = "RazaoSocial Teste")
         {
             return new EmpresaDTO
             {
                 Cnpj = cnpj,
                 RazaoSocial = RazaoSocial,
-                UFs = new List<UF>{UF.CE}
+                UFs = new List<UF> { UF.CE }
             };
         }
 
@@ -72,7 +73,7 @@ namespace test.Stub
         {
             var lista = new List<Empresa>();
 
-            for(int i = 0; i < n; i++)
+            for (int i = 0; i < n; i++)
             {
                 lista.Add(RetornarEmpresa("EmpresaTeste_" + i.ToString()));
             }
@@ -86,10 +87,10 @@ namespace test.Stub
 
             for (int i = 0; i < n; i++)
             {
-                lista.Add(RetornarEmpresaDTO("Perfil" + i.ToString()));               
+                lista.Add(RetornarEmpresaDTO("Perfil" + i.ToString()));
             }
 
             return lista;
         }
-    }  
+    }
 }

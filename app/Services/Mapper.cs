@@ -18,11 +18,9 @@ namespace app.Services.Mapper
             CreateMap<Municipio, MunicipioModel>();
 
             CreateMap<Usuario, UsuarioModel>();
-            
+
             CreateMap<UsuarioDTO, UsuarioTerceiro>()
                 .ForMember(u => u.CNPJ, opt => opt.Ignore());
-
-            CreateMap<UsuarioDTO, UsuarioDnit>();
 
             CreateMap<UF, UfModel>()
                 .ForMember(model => model.Id, opt => opt.MapFrom(uf => (int)uf))
@@ -38,27 +36,27 @@ namespace app.Services.Mapper
                 .ForMember(p => p.Usuarios, opt => opt.Ignore())
                 .ForMember(p => p.Tipo, opt => opt.Ignore())
                 .ForMember(p => p.PermissoesSessao, opt => opt.Ignore());
-            
+
             CreateMap<Perfil, PerfilModel>()
                 .ForMember(model => model.Permissoes, opt => opt.MapFrom
                     (
                         perf => perf.Permissoes.Select(p => new PermissaoModel
-                            {
-                                Codigo = p,
-                                Descricao = p.AsString(EnumFormat.Description)!
-                            }).ToList()
+                        {
+                            Codigo = p,
+                            Descricao = p.AsString(EnumFormat.Description)!
+                        }).ToList()
                     )
                 )
                 .ForMember(model => model.QuantidadeUsuarios, opt => opt.MapFrom(p => p.Usuarios.Count()))
                 .ForMember(model => model.CategoriasPermissao, opt => opt.Ignore());
-            
+
             CreateMap<Empresa, EmpresaModel>()
                 .ForMember(em => em.UFs, opt => opt.MapFrom(e => e.EmpresaUFs.ConvertAll(d => d.Uf)));
 
             CreateMap<EmpresaDTO, Empresa>()
                 .ForMember(e => e.Cnpj, opt => opt.MapFrom(em => em.Cnpj))
                 .ForMember(e => e.RazaoSocial, opt => opt.MapFrom(em => em.RazaoSocial))
-                .ForMember(e => e.EmpresaUFs, opt => opt.MapFrom((dto, em) => dto.UFs.ConvertAll(uf => new EmpresaUF {Empresa=em, Uf=uf})))
+                .ForMember(e => e.EmpresaUFs, opt => opt.MapFrom((dto, em) => dto.UFs.ConvertAll(uf => new EmpresaUF { Empresa = em, Uf = uf })))
                 .ForMember(e => e.Usuarios, opt => opt.Ignore());
 
         }

@@ -1,9 +1,11 @@
 using api;
+using api.Empresa;
 using api.Usuarios;
 using app.Entidades;
 using app.Repositorios.Interfaces;
 using app.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace app.Repositorios
 {
@@ -30,13 +32,13 @@ namespace app.Repositorios
 
         public async Task DeletarEmpresa(Empresa empresa)
         {
-            var empresaParaExcluir = dbContext.Empresa.Where(e => e.Cnpj == empresa.Cnpj).FirstOrDefault() 
+            var empresaParaExcluir = dbContext.Empresa.Where(e => e.Cnpj == empresa.Cnpj).FirstOrDefault()
                 ?? throw new ApiException(ErrorCodes.EmpresaNaoEncontrada);
 
             var query = dbContext.Entry(empresaParaExcluir).Collection(e => e.Usuarios).Query();
             var usuarios = await query.ToListAsync();
 
-            foreach (var usuario in usuarios) 
+            foreach (var usuario in usuarios)
             {
                 empresaParaExcluir.Usuarios.Remove(usuario);
             }
@@ -70,7 +72,8 @@ namespace app.Repositorios
                 query = query_1.Where(p => p.Cnpj.ToLower().Contains(cnpj.ToLower()));
             }
 
-            if (ufs.Count > 0) {
+            if (ufs.Count > 0)
+            {
                 var queryUFs = await dbContext.EmpresaUFs.Where(e => ufs.Contains(e.Uf)).Select(e => e.EmpresaId).ToListAsync();
                 query = query.Where(p => queryUFs.Contains(p.Cnpj));
             }
@@ -83,6 +86,23 @@ namespace app.Repositorios
                 .ToListAsync();
 
             return new ListaPaginada<Empresa>(items, pageIndex, pageSize, total);
+        }
+
+        public async Task<List<Empresa>> ListarEmpresasSemPaginacao(Expression<Func<Empresa, bool>>? filter = null)
+        {
+            var query = dbContext.Empresa.AsQueryable();
+
+            var total = await query.CountAsync();
+            var items = await query
+                .OrderBy(p => p.RazaoSocial)
+                .Select(e => new Empresa
+                {
+                    Cnpj = e.Cnpj,
+                    RazaoSocial = e.RazaoSocial
+                })
+                .ToListAsync();
+
+            return new List<Empresa>(items);
         }
 
         public void AdicionarUsuario(int usuarioid, string empresaid)

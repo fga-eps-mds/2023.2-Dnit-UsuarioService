@@ -57,9 +57,9 @@ namespace test.Stub
             };
         }
 
-        public UsuarioDnit RetornarUsuarioDnit()
+        public UsuarioDTO RetornarUsuarioDnit()
         {
-            return new UsuarioDnit
+            return new UsuarioDTO
             {
                 Email = "usuarioteste@gmail.com",
                 Senha = "senha1234",

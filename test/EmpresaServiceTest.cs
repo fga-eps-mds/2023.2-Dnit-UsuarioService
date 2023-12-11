@@ -12,7 +12,7 @@ using Xunit.Microsoft.DependencyInjection.Abstracts;
 
 namespace test
 {
-    public class EmpresaServiceTest: TestBed<Base>, IDisposable
+    public class EmpresaServiceTest : TestBed<Base>, IDisposable
     {
         private readonly IEmpresaService empresaService;
         private readonly IEmpresaRepositorio empresaRepositorio;
@@ -30,7 +30,7 @@ namespace test
         [Fact]
         public async Task CriarEmpresa_QuandoEmpresaPassado_DeveRetornarEmpresaRegistrado()
         {
-            var empresaDTO = EmpresaStub.RetornarEmpresaDTO(cnpj : "123");
+            var empresaDTO = EmpresaStub.RetornarEmpresaDTO(cnpj: "123");
 
             var empresa = mapper.Map<Empresa>(empresaDTO);
 
@@ -47,7 +47,7 @@ namespace test
         {
             var empresaDTO = EmpresaStub.RetornarEmpresaDTO();
             var empresaDTOEdicao = EmpresaStub.RetornarEmpresaDTO(RazaoSocial: "Novo Nome");
-            
+
 
             var empresa = mapper.Map<Empresa>(empresaDTO);
             var empresaEdicao = mapper.Map<Empresa>(empresaDTOEdicao);
@@ -65,13 +65,13 @@ namespace test
             Assert.Equal(empresa.Cnpj, empresaDb.Cnpj);
             Assert.Equal(empresaEdicao.RazaoSocial, empresaDb.RazaoSocial);
             Assert.NotEqual(empresaDb.RazaoSocial, empresaDTO.RazaoSocial);
-            
+
         }
 
         [Fact]
         public async Task ExcluirEmpresa_QuandoEmpresaExiste_DeveExcluirEmpresaDoDB()
         {
-            var empresaDTO = EmpresaStub.RetornarEmpresaDTO(cnpj:"12");
+            var empresaDTO = EmpresaStub.RetornarEmpresaDTO(cnpj: "12");
             var empresa = mapper.Map<Empresa>(empresaDTO);
 
             await empresaService.CadastrarEmpresa(empresa);
@@ -86,7 +86,7 @@ namespace test
         [Fact]
         public async Task VisualizarEmpresa_QuandoEmpresaExiste_DeveRetornarEmpresaDoDB()
         {
-            var empresaDTO = EmpresaStub.RetornarEmpresaDTO(cnpj:"123456");
+            var empresaDTO = EmpresaStub.RetornarEmpresaDTO(cnpj: "123456");
             var empresa = mapper.Map<Empresa>(empresaDTO);
 
             await empresaService.CadastrarEmpresa(empresa);
@@ -100,7 +100,7 @@ namespace test
 
 
         [Fact]
-        public async Task ListarPerfis_QuandoExistir_DeveRetornarListaDePerfis()
+        public async Task ListarEmpresa_QuandoExistir_DeveRetornarListaDeEmpresas()
         {
             var lista = EmpresaStub.RetornaListaDeEmpresas(5);
 
@@ -110,6 +110,13 @@ namespace test
 
             Assert.Equal(5, listaRetorno.ItemsPorPagina);
         }
-   
+
+        [Fact]
+        public async Task ListarEmpresasSemPaginacao_QuandoExistir_DeveRetornarListaDeEmpresas()
+        {
+            var listaRetorno = await empresaService.ListarAsync();
+
+            Assert.Single(listaRetorno);
+        }
     }
 }

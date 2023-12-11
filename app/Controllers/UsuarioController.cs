@@ -81,11 +81,11 @@ namespace app.Controllers
         }
 
         [HttpPost("cadastrarUsuarioTerceiro")]
-        public IActionResult CadastrarUsuarioTerceiro([FromBody] UsuarioDTO usuarioDTO)
+        public async Task<IActionResult> CadastrarUsuarioTerceiro([FromBody] UsuarioDTO usuarioDTO)
         {
             try
             {
-                usuarioService.CadastrarUsuarioTerceiro(usuarioDTO);
+                await usuarioService.CadastrarUsuarioTerceiro(usuarioDTO);
 
                 return StatusCode(201, new NoContentResult());
             }

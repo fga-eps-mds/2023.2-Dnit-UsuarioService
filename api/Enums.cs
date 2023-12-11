@@ -122,7 +122,7 @@ namespace api
         UsuarioVisualizar = 8003,
         [Description("Editar Perfil Usuário")]
         UsuarioPerfilEditar = 8004,
-        
+
         [Description("Cadastrar Polo")]
         PoloCadastrar = 10000,
 
@@ -135,9 +135,20 @@ namespace api
         [Description("Visualizar Polo")]
         PoloVisualizar = 10003,
 
-
         [Description("Visualizar solicitação")]
         SolicitacaoVisualizar = 9000,
+
+        [Description("Visualizar Planejamento Macro")]
+        PlanejamentoVisualizar = 11000,
+
+        [Description("Criar Planejamento Macro")]
+        PlanejamentoCriar = 11001,
+
+        [Description("Editar Planejamento Macro")]
+        PlanejamentoEditar = 11002,
+
+        [Description("Remover Planejamento Macro")]
+        PlanejamentoRemover = 11003,
     }
 
     public enum ErrorCodes

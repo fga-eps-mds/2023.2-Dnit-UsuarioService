@@ -48,14 +48,12 @@ namespace app.Services
 
         public async Task CadastrarUsuarioDnit(UsuarioDTO usuarioDTO)
         {
-            if (usuarioDTO.UfLotacao == 0) 
+            if (usuarioDTO.UfLotacao == 0)
                 throw new ApiException(ErrorCodes.CodigoUfInvalido);
 
-            var usuario = mapper.Map<UsuarioDnit>(usuarioDTO);
+            usuarioDTO.Senha = EncriptarSenha(usuarioDTO.Senha);
 
-            usuario.Senha = EncriptarSenha(usuario.Senha);
-
-            await usuarioRepositorio.CadastrarUsuarioDnit(usuario);
+            await usuarioRepositorio.CadastrarUsuarioDnit(usuarioDTO);
 
             await dbContext.SaveChangesAsync();
         }
@@ -67,11 +65,12 @@ namespace app.Services
             return BCryptNet.HashPassword(senha, salt);
         }
 
-        public void CadastrarUsuarioTerceiro(UsuarioDTO usuarioDTO)
+        public async Task CadastrarUsuarioTerceiro(UsuarioDTO usuarioDTO)
         {
             var usuario = mapper.Map<UsuarioTerceiro>(usuarioDTO);
             usuario.Senha = EncriptarSenha(usuario.Senha);
-            usuarioRepositorio.CadastrarUsuarioTerceiro(usuario);
+            await usuarioRepositorio.CadastrarUsuarioTerceiro(usuario);
+            await dbContext.SaveChangesAsync();
         }
 
         public async Task<LoginModel> AutenticarUsuarioAsync(string email, string senha)
@@ -120,9 +119,7 @@ namespace app.Services
 
         public async Task RecuperarSenha(UsuarioDTO usuarioDTO)
         {
-            var usuarioEntrada = mapper.Map<UsuarioDnit>(usuarioDTO);
-
-            Usuario usuarioBanco = Obter(usuarioEntrada.Email);
+            Usuario usuarioBanco = Obter(usuarioDTO.Email);
 
             string UuidAutenticacao = Guid.NewGuid().ToString();
 
@@ -164,7 +161,7 @@ namespace app.Services
 
             if (!authConfig.Enabled || usuario.Perfil?.Tipo == TipoPerfil.Administrador)
                 permissoes = Enum.GetValues<Permissao>().ToList(comInternas: true);
-                
+
             var (token, expiraEm) = autenticacaoService.GenerateToken(new AuthUserModel<Permissao>
             {
                 Id = usuario.Id,

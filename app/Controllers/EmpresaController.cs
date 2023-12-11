@@ -40,11 +40,12 @@ namespace app.Controller
 
             var empresa = mapper.Map<Empresa>(empresaDTO);
 
-            try{
+            try
+            {
                 await empresaService.CadastrarEmpresa(empresa);
                 return Ok();
             }
-            catch(DbUpdateException)
+            catch (DbUpdateException)
             {
                 return UnprocessableEntity("Esta Empresa já existe");
             }
@@ -68,26 +69,46 @@ namespace app.Controller
         {
             authService.Require(Usuario, Permissao.EmpresaRemover);
 
-            try{
+            try
+            {
                 await empresaService.DeletarEmpresa(cnpj);
                 return Ok("Empresa excluida");
             }
-            catch(InvalidOperationException e)
+            catch (InvalidOperationException e)
             {
                 return StatusCode(400, e.Message);
-            }           
+            }
         }
-        
+
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> ListarEmpresas(int pageIndex, int pageSize, string? nome = null, string? cnpj = null, string? ufs = "")
         {
             authService.Require(Usuario, Permissao.EmpresaVisualizar);
-            
+
             var pagina = await empresaService.ListarEmpresas(pageIndex, pageSize, nome, cnpj, ufs);
             return Ok(pagina);
         }
-        
+
+        [Authorize]
+        [HttpGet("list")]
+
+        public async Task<IActionResult> ListarEmpresasSemPaginacao()
+        {
+
+            authService.Require(Usuario, Permissao.EmpresaVisualizar);
+
+            try
+            {
+                var pagina = await empresaService.ListarAsync();
+                return Ok(pagina);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message + "\n" + e.StackTrace + "\nHouve um erro interno no servidor.");
+            }
+        }
+
         [Authorize]
         [HttpPut("{cnpj}")]
         public async Task<IActionResult> EditarEmpresa(string cnpj, [FromBody] EmpresaDTO empresaDTO)
@@ -117,7 +138,7 @@ namespace app.Controller
             authService.Require(Usuario, Permissao.EmpresaGerenciarUsuarios);
             await empresaService.AdicionarUsuario(usuarioid, cnpj);
             return Ok("Usuário adicionado");
-            
+
         }
 
         [Authorize]
@@ -127,8 +148,8 @@ namespace app.Controller
             authService.Require(Usuario, Permissao.EmpresaGerenciarUsuarios);
             await empresaService.RemoverUsuario(usuarioid, cnpj);
             return Ok("Usuário removido");
-            
-       
+
+
         }
 
         [Authorize]
@@ -136,12 +157,12 @@ namespace app.Controller
         public async Task<IActionResult> ListarUsuarios(string cnpj, [FromQuery] PesquisaUsuarioFiltro filtro)
         {
             authService.Require(Usuario, Permissao.EmpresaVisualizarUsuarios);
-            
+
             var pagina = await empresaService.ListarUsuarios(cnpj, filtro);
 
 
             return Ok(pagina);
-            
+
         }
     }
 }

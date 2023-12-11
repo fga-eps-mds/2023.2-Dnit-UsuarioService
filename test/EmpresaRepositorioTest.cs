@@ -22,22 +22,22 @@ namespace test
 
         private readonly IUsuarioRepositorio repositorio_usuario;
         private readonly AppDbContext dbContext;
-      
+
         public EmpresaRepositorioTest(ITestOutputHelper testOutputHelper, Base fixture) : base(testOutputHelper, fixture)
-        {   
+        {
 
             repositorio = fixture.GetService<IEmpresaRepositorio>
             (testOutputHelper)!;
 
             repositorio_usuario = fixture.GetService<IUsuarioRepositorio>
             (testOutputHelper)!;
-            
+
             dbContext = fixture.GetService<AppDbContext>(testOutputHelper)!;
         }
 
         [Fact]
         public void DeletarEmpresa_QuandoEmpresaPassado_DeveRemoverDoBanco()
-        {         
+        {
             Empresa empresa = Stub.EmpresaStub.RetornarEmpresa();
 
             repositorio.DeletarEmpresa(empresa);
@@ -51,7 +51,7 @@ namespace test
 
         [Fact]
         public void AdicionarEmpresa_QuandoEmpresaPassado_DeveRetornarEmpresa()
-        {         
+        {
             Empresa empresa = Stub.EmpresaStub.RetornarEmpresa();
 
             var empresaCadastrado = empresa;
@@ -62,7 +62,7 @@ namespace test
             var empresaDb = dbContext.Empresa.FirstOrDefault(e => e.Cnpj == empresa.Cnpj);
 
             Assert.NotNull(empresaDb);
-            Assert.Equal(empresaCadastrado.RazaoSocial,empresa.RazaoSocial );
+            Assert.Equal(empresaCadastrado.RazaoSocial, empresa.RazaoSocial);
         }
 
         [Fact]
@@ -87,7 +87,7 @@ namespace test
 
             var empresaVisualiza = repositorio.VisualizarEmpresa(empresa.Cnpj);
 
-            Assert.Equal(empresaVisualiza?.Cnpj,empresa.Cnpj);
+            Assert.Equal(empresaVisualiza?.Cnpj, empresa.Cnpj);
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace test
                 UF.DF,
                 UF.GO
             };
-            
+
             List<string> nomeLista = new();
 
             lista.ForEach(p => nomeLista.Add(p.RazaoSocial));
@@ -108,10 +108,30 @@ namespace test
 
             dbContext.SaveChanges();
 
-            var listaRetornada = await repositorio.ListarEmpresas(1,3, listaUFs);
+            var listaRetornada = await repositorio.ListarEmpresas(1, 3, listaUFs);
             Assert.NotNull(listaRetornada);
 
-            foreach(var item in lista)
+            foreach (var item in lista)
+            {
+                Assert.Contains(item.RazaoSocial, nomeLista);
+            }
+        }
+
+        [Fact]
+        public async Task ListarEmpresasSemPaginacao_QuandoColocadoTamanho()
+        {
+            var lista = EmpresaStub.RetornaListaDeEmpresas();
+
+            List<string> nomeLista = new();
+
+            lista.ForEach(p => nomeLista.Add(p.RazaoSocial));
+
+            dbContext.SaveChanges();
+
+            var listaRetornada = await repositorio.ListarEmpresasSemPaginacao();
+            Assert.NotNull(listaRetornada);
+
+            foreach (var item in lista)
             {
                 Assert.Contains(item.RazaoSocial, nomeLista);
             }
@@ -122,7 +142,7 @@ namespace test
         {
             var empresa = dbContext.PopulaEmpresa(1)[0];
             var usuario = dbContext.PopulaUsuarios(1)[0];
-            
+
             repositorio.AdicionarUsuario(usuario.Id, empresa.Cnpj);
 
             dbContext.SaveChanges();

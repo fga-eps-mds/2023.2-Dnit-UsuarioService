@@ -62,15 +62,19 @@ namespace app.Repositorios
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task CadastrarUsuarioDnit(UsuarioDnit usuario)
+        public async Task CadastrarUsuarioDnit(UsuarioDTO usuario)
         {
+            var municipio = dbContext.Municipio.Where(e => e.Id == usuario.MunicipioId).FirstOrDefault();
+
             var novoUsuario = new Usuario
             {
                 Nome = usuario.Nome,
                 Email = usuario.Email,
                 Senha = usuario.Senha,
                 UfLotacao = usuario.UfLotacao,
-                Perfil = await RecuperaPerfilBasicoAsync()
+                Perfil = await RecuperaPerfilBasicoAsync(),
+                MunicipioId = usuario.MunicipioId,
+                Municipio = municipio
             };
 
             dbContext.Add(novoUsuario);
@@ -79,6 +83,7 @@ namespace app.Repositorios
         public async Task CadastrarUsuarioTerceiro(UsuarioTerceiro usuarioTerceiro)
         {
             var empresa = dbContext.Empresa.Where(e => e.Cnpj == usuarioTerceiro.CNPJ).FirstOrDefault();
+            var municipio = dbContext.Municipio.Where(e => e.Id == usuarioTerceiro.MunicipioId).FirstOrDefault();
 
             var novoUsuarioTerceiro = new Usuario
             {
@@ -86,10 +91,13 @@ namespace app.Repositorios
                 Email = usuarioTerceiro.Email,
                 Senha = usuarioTerceiro.Senha,
                 Perfil = await RecuperaPerfilBasicoAsync(),
-                Associacao = Associacao.Empresa
+                Associacao = Associacao.Empresa,
+                MunicipioId = usuarioTerceiro.MunicipioId,
+                Municipio = municipio
             };
 
-            if (empresa != null){
+            if (empresa != null)
+            {
                 novoUsuarioTerceiro.Empresa = empresa;
             }
 

@@ -10,11 +10,11 @@ namespace app.Services.Interfaces
         Task TrocaSenha(RedefinicaoSenhaDTO redefinirSenhaDto);
         Task RecuperarSenha(UsuarioDTO usuarioDto);
         Task CadastrarUsuarioDnit(UsuarioDTO usuarioDTO);
-        void CadastrarUsuarioTerceiro(UsuarioDTO usuarioDTO);
+        Task CadastrarUsuarioTerceiro(UsuarioDTO usuarioDTO);
         Task<LoginModel> AtualizarTokenAsync(AtualizarTokenDto atualizarTokenDto);
         Task<List<Permissao>> ListarPermissoesAsync(int userId);
         Task<ListaPaginada<UsuarioModel>> ObterUsuariosAsync(PesquisaUsuarioFiltro filtro);
-        Task EditarUsuarioPerfil(int usuarioId ,string novoPerfilId, api.UF novaUF, int novoMunicipio);
+        Task EditarUsuarioPerfil(int usuarioId, string novoPerfilId, api.UF novaUF, int novoMunicipio);
         string ObterApiKey(int usuarioid);
     }
 }
